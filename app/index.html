@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Project Pulse</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="dashboard">
+      <header class="dashboard__header">
+        <div class="dashboard__brand">
+          <span class="dashboard__logo" aria-hidden="true">◉</span>
+          <div>
+            <h1 class="dashboard__title">Project Pulse</h1>
+            <p class="dashboard__subtitle">
+              A live look at Mona's portfolio — status, priority, and the latest movement across every project.
+            </p>
+          </div>
+        </div>
+        <p class="dashboard__meta" aria-live="polite">Loading projects…</p>
+      </header>
+
+      <section class="dashboard__grid" id="projectGrid" aria-label="Projects"></section>
+
+      <p class="dashboard__empty" hidden>No projects to show yet.</p>
+    </main>
+
+    <template id="projectCardTemplate">
+      <article class="project-card" data-status="" data-priority="">
+        <header class="project-card__header">
+          <h2 class="project-card__title"></h2>
+          <span class="project-card__priority" aria-label="Priority">
+            <span class="project-card__priority-glyph" aria-hidden="true"></span>
+            <span class="project-card__priority-label"></span>
+          </span>
+        </header>
+
+        <p class="project-card__owner">
+          <span class="project-card__label">Owner</span>
+          <span class="project-card__owner-name"></span>
+        </p>
+
+        <span class="project-card__status" aria-label="Status">
+          <span class="project-card__status-dot" aria-hidden="true"></span>
+          <span class="project-card__status-label"></span>
+        </span>
+
+        <div class="project-card__activity">
+          <span class="project-card__label">Recent activity</span>
+          <p class="project-card__activity-text"></p>
+        </div>
+      </article>
+    </template>
+
+    <script>
+      (function () {
+        const STATUS_LABELS = {
+          active: "Active",
+          "at-risk": "At risk",
+          blocked: "Blocked",
+          done: "Done",
+        };
+        const PRIORITY_LABELS = {
+          high: "High priority",
+          medium: "Medium priority",
+          low: "Low priority",
+        };
+        const PRIORITY_GLYPHS = { high: "▲", medium: "◆", low: "▼" };
+
+        const grid = document.getElementById("projectGrid");
+        const meta = document.querySelector(".dashboard__meta");
+        const emptyEl = document.querySelector(".dashboard__empty");
+        const tpl = document.getElementById("projectCardTemplate");
+
+        function renderError(message) {
+          grid.innerHTML = "";
+          const p = document.createElement("p");
+          p.className = "dashboard__error";
+          p.setAttribute("role", "alert");
+          p.textContent = message;
+          grid.appendChild(p);
+          meta.textContent = "Showing 0 projects";
+          emptyEl.hidden = true;
+        }
+
+        function isValid(p) {
+          return (
+            p &&
+            typeof p.name === "string" &&
+            typeof p.status === "string" &&
+            typeof p.priority === "string" &&
+            STATUS_LABELS[p.status] &&
+            PRIORITY_LABELS[p.priority]
+          );
+        }
+
+        function buildCard(project) {
+          const node = tpl.content.firstElementChild.cloneNode(true);
+          node.dataset.status = project.status;
+          node.dataset.priority = project.priority;
+
+          node.querySelector(".project-card__title").textContent = project.name;
+          node.querySelector(".project-card__owner-name").textContent =
+            project.owner || "Unassigned";
+
+          node.querySelector(".project-card__status-label").textContent =
+            STATUS_LABELS[project.status];
+
+          const prioLabel = node.querySelector(".project-card__priority-label");
+          prioLabel.textContent = PRIORITY_LABELS[project.priority];
+          node.querySelector(".project-card__priority-glyph").textContent =
+            PRIORITY_GLYPHS[project.priority] || "•";
+
+          node.querySelector(".project-card__activity-text").textContent =
+            project.recentActivity || "No recent updates.";
+
+          return node;
+        }
+
+        fetch("./project-data.json")
+          .then((res) => {
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            return res.json();
+          })
+          .then((data) => {
+            if (!data || !Array.isArray(data.projects)) {
+              throw new Error("Malformed project data.");
+            }
+            const valid = [];
+            let skipped = 0;
+            data.projects.forEach((p) => {
+              if (isValid(p)) valid.push(p);
+              else skipped += 1;
+            });
+            if (skipped > 0) {
+              console.warn(
+                "Project Pulse: skipped " + skipped + " malformed record(s)."
+              );
+            }
+
+            const frag = document.createDocumentFragment();
+            valid.forEach((p) => frag.appendChild(buildCard(p)));
+            grid.innerHTML = "";
+            grid.appendChild(frag);
+
+            meta.textContent =
+              "Showing " + valid.length + " project" + (valid.length === 1 ? "" : "s");
+            emptyEl.hidden = valid.length !== 0;
+          })
+          .catch((err) => {
+            console.error("Project Pulse: failed to load data.", err);
+            renderError(
+              "We couldn't load the project data. Please refresh, or check that project-data.json is available."
+            );
+          });
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,419 @@
+/* Project Pulse — dashboard styles */
+
+:root {
+  --surface: #f5f7fb;
+  --surface-raised: #ffffff;
+  --surface-sunken: #eef1f7;
+  --border: #e2e6ef;
+  --border-strong: #ccd3e0;
+
+  --text: #131a2b;
+  --text-muted: #5a6478;
+  --text-subtle: #7a8496;
+
+  --brand: #3b5bdb;
+  --brand-ink: #1e2f78;
+
+  --status-active-bg: #e3f5ea;
+  --status-active-fg: #0f6b3a;
+  --status-atrisk-bg: #fff4d6;
+  --status-atrisk-fg: #8a5a00;
+  --status-blocked-bg: #fde4e4;
+  --status-blocked-fg: #a01e1e;
+  --status-done-bg: #e5eaf5;
+  --status-done-fg: #3d4a6b;
+
+  --priority-high-bg: #fde4e4;
+  --priority-high-fg: #a01e1e;
+  --priority-med-bg: #fff4d6;
+  --priority-med-fg: #8a5a00;
+  --priority-low-bg: #e5eaf5;
+  --priority-low-fg: #3d4a6b;
+
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 999px;
+
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04),
+    0 8px 24px rgba(15, 23, 42, 0.06);
+  --shadow-card-hover: 0 2px 4px rgba(15, 23, 42, 0.06),
+    0 14px 32px rgba(15, 23, 42, 0.1);
+
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+
+  --step-1: 0.8125rem;
+  --step-2: 0.9375rem;
+  --step-3: 1.0625rem;
+  --step-4: 1.25rem;
+  --step-5: 1.75rem;
+  --step-6: 2.25rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--surface);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* Layout ------------------------------------------------------------------ */
+
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+}
+
+.dashboard__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.dashboard__brand {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.dashboard__logo {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4c6ef5, #7048e8);
+  color: #fff;
+  font-size: 1.35rem;
+  box-shadow: 0 6px 16px rgba(76, 110, 245, 0.35);
+}
+
+.dashboard__title {
+  margin: 0;
+  font-size: var(--step-6);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.dashboard__subtitle {
+  margin: 0.15rem 0 0;
+  color: var(--text-muted);
+  font-size: var(--step-2);
+  max-width: 52ch;
+}
+
+.dashboard__meta {
+  margin: 0;
+  font-size: var(--step-1);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0.4rem 0.75rem;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+/* Grid -------------------------------------------------------------------- */
+
+.dashboard__grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .dashboard__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dashboard__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Card -------------------------------------------------------------------- */
+
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.35rem 1.35rem 1.45rem;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.project-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: var(--border-strong);
+}
+
+.project-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
+}
+
+.project-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.project-card__title {
+  margin: 0;
+  font-size: var(--step-4);
+  font-weight: 650;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  word-break: break-word;
+}
+
+.project-card__label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+  margin-bottom: 0.15rem;
+}
+
+.project-card__owner {
+  margin: 0;
+  font-size: var(--step-2);
+}
+
+.project-card__owner-name {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Status badge ------------------------------------------------------------ */
+
+.project-card__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  align-self: flex-start;
+  padding: 0.3rem 0.7rem 0.3rem 0.6rem;
+  font-size: var(--step-1);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunken);
+  color: var(--text-muted);
+  border: 1px solid transparent;
+}
+
+.project-card__status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.project-card[data-status="active"] .project-card__status {
+  background: var(--status-active-bg);
+  color: var(--status-active-fg);
+}
+.project-card[data-status="at-risk"] .project-card__status {
+  background: var(--status-atrisk-bg);
+  color: var(--status-atrisk-fg);
+}
+.project-card[data-status="blocked"] .project-card__status {
+  background: var(--status-blocked-bg);
+  color: var(--status-blocked-fg);
+}
+.project-card[data-status="done"] .project-card__status {
+  background: var(--status-done-bg);
+  color: var(--status-done-fg);
+}
+
+/* Left accent bar per status */
+.project-card[data-status="active"]::before {
+  background: #22a55b;
+}
+.project-card[data-status="at-risk"]::before {
+  background: #e0a01c;
+}
+.project-card[data-status="blocked"]::before {
+  background: #d0433a;
+}
+.project-card[data-status="done"]::before {
+  background: #6b7c9c;
+}
+
+/* Priority pill ----------------------------------------------------------- */
+
+.project-card__priority {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  background: var(--surface-sunken);
+  color: var(--text-muted);
+}
+
+.project-card__priority-glyph {
+  font-size: 0.7rem;
+  line-height: 1;
+}
+
+.project-card[data-priority="high"] .project-card__priority {
+  background: var(--priority-high-bg);
+  color: var(--priority-high-fg);
+  box-shadow: inset 0 0 0 1px rgba(160, 30, 30, 0.15);
+}
+.project-card[data-priority="medium"] .project-card__priority {
+  background: var(--priority-med-bg);
+  color: var(--priority-med-fg);
+}
+.project-card[data-priority="low"] .project-card__priority {
+  background: var(--priority-low-bg);
+  color: var(--priority-low-fg);
+  font-weight: 600;
+}
+
+/* High priority emphasis without relying on color alone */
+.project-card[data-priority="high"] .project-card__title {
+  font-weight: 700;
+}
+
+/* Activity ---------------------------------------------------------------- */
+
+.project-card__activity {
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px dashed var(--border);
+}
+
+.project-card__activity-text {
+  margin: 0;
+  font-size: var(--step-2);
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Empty + error ----------------------------------------------------------- */
+
+.dashboard__empty,
+.dashboard__error {
+  grid-column: 1 / -1;
+  margin: 1rem 0 0;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  background: var(--surface-raised);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  color: var(--text-muted);
+  font-size: var(--step-3);
+}
+
+.dashboard__error {
+  border-style: solid;
+  border-color: #f0b7b3;
+  background: #fdf1f0;
+  color: #7a1f1a;
+}
+
+/* Focus ------------------------------------------------------------------- */
+
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Motion ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card {
+    transition: none;
+  }
+  .project-card:hover {
+    transform: none;
+  }
+}
+
+/* Dark mode (subtle) ------------------------------------------------------ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface: #0f1220;
+    --surface-raised: #171b2d;
+    --surface-sunken: #1f2438;
+    --border: #262c44;
+    --border-strong: #354065;
+
+    --text: #eef1fb;
+    --text-muted: #a6afc8;
+    --text-subtle: #7f8aa8;
+
+    --status-active-bg: #103a25;
+    --status-active-fg: #7fe3a5;
+    --status-atrisk-bg: #3d2e0a;
+    --status-atrisk-fg: #f5c66b;
+    --status-blocked-bg: #401717;
+    --status-blocked-fg: #ff9d95;
+    --status-done-bg: #232a44;
+    --status-done-fg: #b6c0dc;
+
+    --priority-high-bg: #401717;
+    --priority-high-fg: #ff9d95;
+    --priority-med-bg: #3d2e0a;
+    --priority-med-fg: #f5c66b;
+    --priority-low-bg: #232a44;
+    --priority-low-fg: #b6c0dc;
+
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4),
+      0 10px 28px rgba(0, 0, 0, 0.35);
+    --shadow-card-hover: 0 2px 4px rgba(0, 0, 0, 0.45),
+      0 16px 36px rgba(0, 0, 0, 0.5);
+  }
+
+  .dashboard__error {
+    background: #2a1414;
+    border-color: #6b2a26;
+    color: #ffbfb8;
+  }
+}

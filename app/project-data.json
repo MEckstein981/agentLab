@@ -1,0 +1,60 @@
+{
+  "projects": [
+    {
+      "name": "Customer Insights Refresh",
+      "owner": "Mona Patel",
+      "status": "active",
+      "recentActivity": "Validated interview themes with the beta cohort on Sept 25.",
+      "priority": "high"
+    },
+    {
+      "name": "Unified Checkout Reliability Initiative",
+      "owner": "Jon Bell",
+      "status": "at-risk",
+      "recentActivity": "Found a payment retry regression during staging smoke tests.",
+      "priority": "high"
+    },
+    {
+      "name": "Partner API Rate Limit Rollout",
+      "owner": "Iris Chen",
+      "status": "blocked",
+      "recentActivity": "Waiting on legal approval for updated partner terms.",
+      "priority": "medium"
+    },
+    {
+      "name": "Mobile Search Relevance Tuning",
+      "owner": "Sam Rivera",
+      "status": "active",
+      "recentActivity": "Released a synonym update to 20 percent of Android users.",
+      "priority": "medium"
+    },
+    {
+      "name": "Self-Service Billing Exports",
+      "owner": "Priya Nair",
+      "status": "done",
+      "recentActivity": "Shipped CSV exports to all billing admins on Sept 24.",
+      "priority": "low"
+    },
+    {
+      "name": "Team Workspace Templates",
+      "owner": "Eli Morgan",
+      "status": "active",
+      "recentActivity": "Added three onboarding templates after sales team feedback.",
+      "priority": "low"
+    },
+    {
+      "name": "Enterprise SSO Certificate Rotation",
+      "owner": "Avery Brooks",
+      "status": "at-risk",
+      "recentActivity": "Pilot tenant flagged an expired metadata cache issue.",
+      "priority": "medium"
+    },
+    {
+      "name": "AI Summary Quality Guardrails",
+      "owner": "Nadia Flores",
+      "status": "blocked",
+      "recentActivity": "Model evals are paused until red-team findings are triaged.",
+      "priority": "high"
+    }
+  ]
+}
